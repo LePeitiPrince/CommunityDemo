@@ -12,7 +12,6 @@ import spring.adog.model.User;
 import spring.adog.provider.GithubProvider;
 
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.UUID;
 
@@ -52,6 +51,7 @@ public class AuthorizeController {
             user.setToken(token);
             user.setGmt_create(System.currentTimeMillis());
             user.setGmt_modified(user.getGmt_create());
+            user.setBio(githubUser.getBio());
             userMapper.insertUser(user);
             response.addCookie(new Cookie("token",token));
             return "redirect:/";
