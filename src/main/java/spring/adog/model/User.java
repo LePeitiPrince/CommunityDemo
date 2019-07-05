@@ -1,11 +1,20 @@
 package spring.adog.model;
 
 public class User {
+    private Integer id;
     private String account_id;
     private String name;
     private String token;
     private long gmt_create;
     private long gmt_modified;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getBio() {
         return bio;
