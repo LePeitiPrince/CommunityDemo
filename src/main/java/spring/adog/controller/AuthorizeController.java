@@ -47,6 +47,7 @@ public class AuthorizeController {
             String token = userMapper.findTokenByName(githubUser.getName());
             if (token == null) {
                 User user = new User();
+                user.setAvatar_url(githubUser.getAvatar_url());
                 user.setAccount_id(String.valueOf(githubUser.getId()));
                 user.setName(githubUser.getName());
                 token = UUID.randomUUID().toString();
