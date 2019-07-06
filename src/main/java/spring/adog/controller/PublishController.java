@@ -13,6 +13,7 @@ import spring.adog.model.User;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 
 @Controller
 public class PublishController {
@@ -75,6 +76,7 @@ public class PublishController {
         question.setCreatorId(user.getId());
         question.setGmtCreate(System.currentTimeMillis());
         question.setGmtModified(question.getGmtCreate());
+        System.out.println(new Date(question.getGmtCreate()).toString());
         questionMapper.insertQuestion(question);
 
         return "redirect:/";

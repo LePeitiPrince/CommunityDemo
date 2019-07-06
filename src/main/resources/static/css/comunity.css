@@ -1,6 +1,6 @@
 body{
-    background-color: #efefef;
-}
+     background-color: #efefef;
+ }
 .main{
     background-color: white;
     margin-top: 40px;
@@ -10,4 +10,13 @@ body{
 .btn-publish{
     float: right;
     margin-bottom: 15px;
+}
+.media-object{
+    width: 40px;
+    height: 40px;
+}
+.test-desc{
+    font-size: 12px;
+    font-weight: normal;
+    color: #999;
 }

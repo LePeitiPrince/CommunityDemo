@@ -20,11 +20,11 @@ public class AuthorizeController {
     @Autowired
     private GithubProvider githubProvider;
 
-    @Value("github.client.id")
+    @Value("${github.client.id}")
     private String clientId;
-    @Value("github.client.secret")
+    @Value("${github.client.secret}")
     private String secret;
-    @Value("github.client.redirect_uri")
+    @Value("${github.client.redirect_uri}")
     private String redirect_id;
 
     @Autowired
@@ -43,25 +43,19 @@ public class AuthorizeController {
         String accessToken = githubProvider.getAccessToken(accessTokenDTO);
         GithubUser githubUser = githubProvider.getUser(accessToken);
         if (githubUser != null) {
-            //登陆成功，写cookie和session;判断用户是否在数据库已经存在，如果不存在就写入数据库
-            String token = userMapper.findTokenByName(githubUser.getName());
-            if (token == null) {
-                User user = new User();
-                user.setAvatar_url(githubUser.getAvatar_url());
-                user.setAccount_id(String.valueOf(githubUser.getId()));
-                user.setName(githubUser.getName());
-                token = UUID.randomUUID().toString();
-                user.setToken(token);
-                user.setGmt_create(System.currentTimeMillis());
-                user.setGmt_modified(user.getGmt_create());
-                user.setBio(githubUser.getBio());
-                userMapper.insertUser(user);
-                response.addCookie(new Cookie("token", token));
-                return "redirect:/";
-            }else {
-                response.addCookie(new Cookie("token", token));
-                return "redirect:/";
-            }
+            //登陆成功，写cookie和session;
+            User user = new User();
+            user.setAvatar_url(githubUser.getAvatar_url());
+            user.setAccount_id(String.valueOf(githubUser.getId()));
+            user.setName(githubUser.getName());
+            String token = UUID.randomUUID().toString();
+            user.setToken(token);
+            user.setGmt_create(System.currentTimeMillis());
+            user.setGmt_modified(user.getGmt_create());
+            user.setBio(githubUser.getBio());
+            userMapper.insertUser(user);
+            response.addCookie(new Cookie("token", token));
+            return "redirect:/";
         } else {
             //登陆失败，重新登陆
             return "redirect:/";
