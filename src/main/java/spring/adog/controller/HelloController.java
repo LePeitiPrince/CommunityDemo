@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import spring.adog.dto.PaginationDTO;
 import spring.adog.dto.QuestionDTO;
 import spring.adog.mapper.UserMapper;
 import spring.adog.model.User;
@@ -23,6 +25,8 @@ public class HelloController {
 
     @GetMapping("/")
     public String index(HttpServletRequest request,
+                        @RequestParam(name = "page",defaultValue = "1") Integer page,
+                        @RequestParam(name = "size",defaultValue = "2") Integer size,
                         Model model){
         Cookie[] cookies = request.getCookies();
         for (Cookie cookie : cookies) {
@@ -35,8 +39,8 @@ public class HelloController {
                 break;
             }
         }
-        List<QuestionDTO> questions = questionService.list();
-        model.addAttribute("questions",questions);
+        PaginationDTO pagination = questionService.list(page,size);
+        model.addAttribute("pagination",pagination);
         return "index";
     }
 }
