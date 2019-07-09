@@ -11,7 +11,6 @@ import spring.adog.mapper.UserMapper;
 import spring.adog.model.Question;
 import spring.adog.model.User;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 
@@ -51,18 +50,8 @@ public class PublishController {
             return "publish";
         }
 
-        User user = null;
-        Cookie[] cookies = request.getCookies();
-        for (Cookie cookie : cookies) {
-            if (cookie.getName().equals("token")){
-                String token = cookie.getValue();
-                user = userMapper.findUserByToken(token);
-                if (user != null){
-                    request.getSession().setAttribute("user",user);
-                }
-                break;
-            }
-        }
+        //登陆验证交给拦截器
+        User user = (User) request.getSession().getAttribute("user");
 
         if (user == null){
             model.addAttribute("error","用户未登录,请登录后重试...");
