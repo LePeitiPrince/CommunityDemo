@@ -1,9 +1,6 @@
 package spring.adog.mapper;
 
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import spring.adog.model.User;
 
 @Mapper
@@ -16,4 +13,10 @@ public interface UserMapper {
 
     @Select("select * from user where id = #{id}")
     User findUserById(@Param("id") Integer id);
+
+    @Select("select * from user where account_id = #{account_id}")
+    User findUserByCountId(@Param("account_id") String account_id);
+
+    @Update("update user set name = #{name},token = #{token},gmt_modified = #{gmt_modified},avatar_url = #{avatar_url},bio = #{bio} where id = #{id}")
+    void update(User user);
 }
