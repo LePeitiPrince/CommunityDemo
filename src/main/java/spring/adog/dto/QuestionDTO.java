@@ -3,103 +3,103 @@ package spring.adog.dto;
 import spring.adog.model.User;
 
 public class QuestionDTO {
-    private Integer id;
-    private String title;
-    private String description;
-    private long gmtCreate;
-    private long gmtModified;
-    private Integer creatorId;
-    private Integer comment_count;
-    private Integer view_count;
-    private Integer like_count;
-    private String tag;
-    private User user;
+    private Integer ID;
+    private String TITLE;
+    private String DESCRIPTION;
+    private long GMTCREATE;
+    private long GMTMODIFIED;
+    private Integer CREATORID;
+    private Integer COMMENT_COUNT;
+    private Integer VIEW_COUNT;
+    private Integer LIKE_COUNT;
+    private String TAG;
+    private User USER;
 
-    public Integer getId() {
-        return id;
+    public Integer getID() {
+        return ID;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setID(Integer ID) {
+        this.ID = ID;
     }
 
-    public String getTitle() {
-        return title;
+    public String getTITLE() {
+        return TITLE;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setTITLE(String TITLE) {
+        this.TITLE = TITLE;
     }
 
-    public String getDescription() {
-        return description;
+    public String getDESCRIPTION() {
+        return DESCRIPTION;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setDESCRIPTION(String DESCRIPTION) {
+        this.DESCRIPTION = DESCRIPTION;
     }
 
-    public long getGmtCreate() {
-        return gmtCreate;
+    public long getGMTCREATE() {
+        return GMTCREATE;
     }
 
-    public void setGmtCreate(long gmtCreate) {
-        this.gmtCreate = gmtCreate;
+    public void setGMTCREATE(long GMTCREATE) {
+        this.GMTCREATE = GMTCREATE;
     }
 
-    public long getGmtModified() {
-        return gmtModified;
+    public long getGMTMODIFIED() {
+        return GMTMODIFIED;
     }
 
-    public void setGmtModified(long gmtModified) {
-        this.gmtModified = gmtModified;
+    public void setGMTMODIFIED(long GMTMODIFIED) {
+        this.GMTMODIFIED = GMTMODIFIED;
     }
 
-    public Integer getCreatorId() {
-        return creatorId;
+    public Integer getCREATORID() {
+        return CREATORID;
     }
 
-    public void setCreatorId(Integer creatorId) {
-        this.creatorId = creatorId;
+    public void setCREATORID(Integer CREATORID) {
+        this.CREATORID = CREATORID;
     }
 
-    public Integer getComment_count() {
-        return comment_count;
+    public Integer getCOMMENT_COUNT() {
+        return COMMENT_COUNT;
     }
 
-    public void setComment_count(Integer comment_count) {
-        this.comment_count = comment_count;
+    public void setCOMMENT_COUNT(Integer COMMENT_COUNT) {
+        this.COMMENT_COUNT = COMMENT_COUNT;
     }
 
-    public Integer getView_count() {
-        return view_count;
+    public Integer getVIEW_COUNT() {
+        return VIEW_COUNT;
     }
 
-    public void setView_count(Integer view_count) {
-        this.view_count = view_count;
+    public void setVIEW_COUNT(Integer VIEW_COUNT) {
+        this.VIEW_COUNT = VIEW_COUNT;
     }
 
-    public Integer getLike_count() {
-        return like_count;
+    public Integer getLIKE_COUNT() {
+        return LIKE_COUNT;
     }
 
-    public void setLike_count(Integer like_count) {
-        this.like_count = like_count;
+    public void setLIKE_COUNT(Integer LIKE_COUNT) {
+        this.LIKE_COUNT = LIKE_COUNT;
     }
 
-    public String getTag() {
-        return tag;
+    public String getTAG() {
+        return TAG;
     }
 
-    public void setTag(String tag) {
-        this.tag = tag;
+    public void setTAG(String TAG) {
+        this.TAG = TAG;
     }
 
-    public User getUser() {
-        return user;
+    public User getUSER() {
+        return USER;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUSER(User USER) {
+        this.USER = USER;
     }
 }

@@ -3,11 +3,11 @@
 <head>
     <title>publish - 社区项目</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link rel="stylesheet" href="css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="css/bootstrap-theme.min.css"/>
-    <link rel="stylesheet" href="css/comunity.css"/>
-    <script type="application/javascript" src="js/jquery-3.4.1.min.js"></script>
-    <script type="application/javascript" src="js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/css/bootstrap-theme.min.css"/>
+    <link rel="stylesheet" href="/css/comunity.css"/>
+    <script type="application/javascript" src="/js/jquery-3.4.1.min.js"></script>
+    <script type="application/javascript" src="/js/bootstrap.min.js"></script>
 </head>
 <body>
 <div th:insert="~{navigation :: nav}">
@@ -21,6 +21,7 @@
             </h2>
             <hr/>
             <form action="/publish" method="post">
+                <input type="hidden" name="id" th:value="${id}">
                 <div class="form-group">
                     <label for="title">问题标题 (简单扼要)：</label>
                     <input type="text" class="form-control" id="title" name="title" placeholder="问题标题..." th:value="${title}">

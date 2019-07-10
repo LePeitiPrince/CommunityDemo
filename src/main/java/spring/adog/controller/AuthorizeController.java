@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import spring.adog.dto.AccessTokenDTO;
 import spring.adog.dto.GithubUser;
-import spring.adog.mapper.UserMapper;
 import spring.adog.model.User;
 import spring.adog.provider.GithubProvider;
 import spring.adog.service.UserService;
@@ -31,9 +30,6 @@ public class AuthorizeController {
     @Value("${github.client.redirect_uri}")
     private String redirect_id;
 
-    @Autowired
-    private UserMapper userMapper;
-
     @GetMapping("/callback")
     public String callback(@RequestParam(name = "code") String code,
                            @RequestParam(name = "state") String state,
@@ -49,12 +45,12 @@ public class AuthorizeController {
         if (githubUser != null) {
             //登陆成功，写cookie和session;
             User user = new User();
-            user.setAvatar_url(githubUser.getAvatar_url());
-            user.setAccount_id(String.valueOf(githubUser.getId()));
-            user.setName(githubUser.getName());
+            user.setAVATAR_URL(githubUser.getAvatar_url());
+            user.setACCOUNT_ID(String.valueOf(githubUser.getId()));
+            user.setNAME(githubUser.getName());
             String token = UUID.randomUUID().toString();
-            user.setToken(token);
-            user.setBio(githubUser.getBio());
+            user.setTOKEN(token);
+            user.setBIO(githubUser.getBio());
             service.createOrUpdate(user);
             response.addCookie(new Cookie("token", token));
             return "redirect:/";

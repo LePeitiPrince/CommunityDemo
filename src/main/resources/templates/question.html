@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title th:text="${question.title}"></title>
+    <title th:text="${question.TITLE}"></title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link rel="stylesheet" href="/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="/css/bootstrap-theme.min.css"/>
@@ -17,19 +17,19 @@
     <div class="row">
         <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
             <h4>
-                <span th:text="${question.title}"></span>
+                <span th:text="${question.TITLE}"></span>
             </h4>
             <span class="test-desc">
-                作者 <span th:text="${question.user.getName()}"></span> |
-                发布时间 <span th:text="${#dates.format(question.getGmtCreate(),'yyyy-MM-dd HH:mm')}"></span> |
-                阅读数 <span th:text="${question.view_count}"></span>
+                作者 <span th:text="${question.USER.getNAME()}"></span> |
+                发布时间 <span th:text="${#dates.format(question.getGMTCREATE(),'yyyy-MM-dd HH:mm')}"></span> |
+                阅读数 <span th:text="${question.VIEW_COUNT}"></span>
             </span>
             <hr/>
-            <div th:text="${question.description}">
+            <div th:text="${question.DESCRIPTION}">
 
             </div>
             <hr>
-            <a th:if="${session.user != null && question.creatorId == session.user.getId()}" class="comunity-menu" th:href="@{'/question/' + ${question.getId()}}">
+            <a th:if="${session.user != null && question.CREATORID == session.user.getID()}" class="comunity-menu" th:href="@{'/publish/' + ${question.getID()}}">
                 <span class="glyphicon glyphicon-pencil"></span>
                 编辑
             </a>
@@ -40,12 +40,12 @@
                 <div class="media">
                     <div class="media-left">
                         <a href="#">
-                            <img class="media-object img-rounded" th:src="${question.user.getAvatar_url()}">
+                            <img class="media-object img-rounded" th:src="${question.USER.getAVATAR_URL()}">
                         </a>
                     </div>
                     <div class="media-body">
                         <h5 class="media-heading">
-                            <span th:text="${question.user.getName()}"></span>
+                            <span th:text="${question.USER.getNAME()}"></span>
                         </h5>
                     </div>
                 </div>

@@ -38,7 +38,7 @@ public class ProfileController {
             model.addAttribute("sectionName","最新回复");
         }
         //根据登陆userId查询question
-        PaginationDTO pagination = questionService.list(user.getId(),page,size);
+        PaginationDTO pagination = questionService.list(user.getID(),page,size);
         model.addAttribute("pagination",pagination);
         return "profile";
     }

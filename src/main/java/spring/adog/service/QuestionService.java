@@ -1,5 +1,6 @@
 package spring.adog.service;
 
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,6 +9,7 @@ import spring.adog.dto.QuestionDTO;
 import spring.adog.mapper.QuestionMapper;
 import spring.adog.mapper.UserMapper;
 import spring.adog.model.Question;
+import spring.adog.model.QuestionExample;
 import spring.adog.model.User;
 
 import java.util.ArrayList;
@@ -21,11 +23,7 @@ public class QuestionService {
     @Autowired
     private UserMapper userMapper;
 
-    public PaginationDTO list(Integer page, Integer size) {
-
-        PaginationDTO pagination = new PaginationDTO();
-        Integer count = questionMapper.count();
-        pagination.setPagination(count,page,size);
+    public Integer getOffset(Integer page,Integer size,PaginationDTO pagination){
         //数据库的判断
         if (page < 1){
             page = 1;
@@ -35,15 +33,33 @@ public class QuestionService {
         }
 
         Integer offset = size*(page-1);
+        return offset;
+    }
+
+    //封装
+    public List<QuestionDTO> getQuestionDTOList(List<Question> questions){
         List<QuestionDTO> questionDTOList = new ArrayList<>();
-        List<Question> questions = questionMapper.list(offset,size);
         for (Question question : questions) {
-            User user = userMapper.findUserById(question.getCreatorId());
+            User user = userMapper.selectByPrimaryKey(question.getCREATORID());
             QuestionDTO questionDTO = new QuestionDTO();
             BeanUtils.copyProperties(question,questionDTO);
-            questionDTO.setUser(user);
+            questionDTO.setUSER(user);
             questionDTOList.add(questionDTO);
         }
+        return questionDTOList;
+    }
+
+    public PaginationDTO list(Integer page, Integer size) {
+
+        PaginationDTO pagination = new PaginationDTO();
+        QuestionExample example = new QuestionExample();
+        Integer count = (int) questionMapper.countByExample(example);
+        pagination.setPagination(count,page,size);
+
+        Integer offset = getOffset(page,size,pagination);
+        QuestionExample paginationExample = new QuestionExample();
+        List<Question> questions = questionMapper.selectByExampleWithRowbounds(paginationExample,new RowBounds(offset,size ));
+        List<QuestionDTO> questionDTOList = getQuestionDTOList(questions);
         pagination.setQuestions(questionDTOList);
         return pagination;
     }
@@ -57,36 +73,50 @@ public class QuestionService {
      */
     public PaginationDTO list(Integer userId, Integer page, Integer size) {
         PaginationDTO pagination = new PaginationDTO();
-        Integer count = questionMapper.countById(userId);
+        QuestionExample example = new QuestionExample();
+        example.createCriteria()
+                .andCREATORIDEqualTo(userId);
+        Integer count = (int)questionMapper.countByExample(example);
         pagination.setPagination(count,page,size);
-        //数据库的判断
-        if (page < 1){
-            page = 1;
-        }
-        if (page > pagination.getTotalPage()){
-            page = pagination.getTotalPage();
-        }
 
-        Integer offset = size*(page-1);
-        List<QuestionDTO> questionDTOList = new ArrayList<>();
-        List<Question> questions = questionMapper.listByUserId(userId,offset,size);
-        for (Question question : questions) {
-            User user = userMapper.findUserById(question.getCreatorId());
-            QuestionDTO questionDTO = new QuestionDTO();
-            BeanUtils.copyProperties(question,questionDTO);
-            questionDTO.setUser(user);
-            questionDTOList.add(questionDTO);
-        }
+        Integer offset = getOffset(page,size,pagination);
+
+        QuestionExample paginationByIdExample = new QuestionExample();
+        paginationByIdExample.createCriteria()
+                .andCREATORIDEqualTo(userId);
+        List<Question> questions = questionMapper.selectByExampleWithRowbounds(paginationByIdExample,new RowBounds(offset,size));
+        List<QuestionDTO> questionDTOList = getQuestionDTOList(questions);
         pagination.setQuestions(questionDTOList);
         return pagination;
     }
 
     public QuestionDTO getQuestionById(Integer id) {
         QuestionDTO questionDTO = new QuestionDTO();
-        Question question = questionMapper.getQuestionById(id);
+        Question question = questionMapper.selectByPrimaryKey(id);
         BeanUtils.copyProperties(question,questionDTO);
-        User user = userMapper.findUserById(question.getCreatorId());
-        questionDTO.setUser(user);
+        User user = userMapper.selectByPrimaryKey(question.getCREATORID());
+        questionDTO.setUSER(user);
         return questionDTO;
+    }
+
+    public void createOrUpdate(Question question) {
+        if (question.getID() == null){
+            //创建
+            question.setGMTCREATE(System.currentTimeMillis());
+            question.setGMTMODIFIED(question.getGMTCREATE());
+            questionMapper.insert(question);
+        }else {
+            //更新
+            Question record = new Question();
+            record.setGMTMODIFIED(System.currentTimeMillis());
+            record.setTITLE(question.getTITLE());
+            record.setDESCRIPTION(question.getDESCRIPTION());
+            record.setTAG(question.getTAG());
+
+            QuestionExample example = new QuestionExample();
+            example.createCriteria()
+                    .andIDEqualTo(question.getID());
+            questionMapper.updateByExampleSelective(record, example);
+        }
     }
 }
