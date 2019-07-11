@@ -6,6 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import spring.adog.dto.PaginationDTO;
 import spring.adog.dto.QuestionDTO;
+//import spring.adog.exception.CustomizeErrorCode;
+//import spring.adog.exception.CustomizeException;
+import spring.adog.exception.CustomizeErrorCode;
+import spring.adog.exception.CustomizeException;
 import spring.adog.mapper.QuestionMapper;
 import spring.adog.mapper.UserMapper;
 import spring.adog.model.Question;
@@ -22,7 +26,9 @@ public class QuestionService {
     private QuestionMapper questionMapper;
     @Autowired
     private UserMapper userMapper;
+    private int update;
 
+    //封装offset
     public Integer getOffset(Integer page,Integer size,PaginationDTO pagination){
         //数据库的判断
         if (page < 1){
@@ -36,7 +42,7 @@ public class QuestionService {
         return offset;
     }
 
-    //封装
+    //封装QuestionDTOList
     public List<QuestionDTO> getQuestionDTOList(List<Question> questions){
         List<QuestionDTO> questionDTOList = new ArrayList<>();
         for (Question question : questions) {
@@ -93,6 +99,9 @@ public class QuestionService {
     public QuestionDTO getQuestionById(Integer id) {
         QuestionDTO questionDTO = new QuestionDTO();
         Question question = questionMapper.selectByPrimaryKey(id);
+        if (question == null){
+            throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
+        }
         BeanUtils.copyProperties(question,questionDTO);
         User user = userMapper.selectByPrimaryKey(question.getCREATORID());
         questionDTO.setUSER(user);
@@ -116,7 +125,11 @@ public class QuestionService {
             QuestionExample example = new QuestionExample();
             example.createCriteria()
                     .andIDEqualTo(question.getID());
-            questionMapper.updateByExampleSelective(record, example);
+            int update = questionMapper.updateByExampleSelective(record, example);
+            if (update != 1){
+                throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
+            }
         }
     }
+
 }
