@@ -10,6 +10,7 @@ import spring.adog.dto.QuestionDTO;
 //import spring.adog.exception.CustomizeException;
 import spring.adog.exception.CustomizeErrorCode;
 import spring.adog.exception.CustomizeException;
+import spring.adog.mapper.QuestionExtMapper;
 import spring.adog.mapper.QuestionMapper;
 import spring.adog.mapper.UserMapper;
 import spring.adog.model.Question;
@@ -26,7 +27,8 @@ public class QuestionService {
     private QuestionMapper questionMapper;
     @Autowired
     private UserMapper userMapper;
-    private int update;
+    @Autowired
+    private QuestionExtMapper questionExtMapper;
 
     //封装offset
     public Integer getOffset(Integer page,Integer size,PaginationDTO pagination){
@@ -132,4 +134,10 @@ public class QuestionService {
         }
     }
 
+    public void incView(Integer id) {
+        Question record = new Question();
+        record.setID(id);
+        record.setVIEW_COUNT(1);
+        questionExtMapper.incView(record);
+    }
 }

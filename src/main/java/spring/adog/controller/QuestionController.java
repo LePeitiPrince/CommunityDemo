@@ -17,6 +17,8 @@ public class QuestionController {
     public String question(@PathVariable("id") Integer id,
                            Model model){
         QuestionDTO question = questionService.getQuestionById(id);
+        //累加阅读数
+        questionService.incView(id);
         model.addAttribute("question",question);
         return "question";
     }
