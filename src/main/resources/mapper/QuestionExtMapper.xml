@@ -22,4 +22,9 @@
     set VIEW_COUNT = VIEW_COUNT + #{VIEW_COUNT,jdbcType=INTEGER}
     where ID = #{ID}
   </update>
+  <update id="incCommentCount" parameterType="spring.adog.model.Question">
+    update QUESTION
+    set COMMENT_COUNT = COMMENT_COUNT + #{COMMENT_COUNT,jdbcType=INTEGER}
+    where ID = #{ID}
+  </update>
 </mapper>

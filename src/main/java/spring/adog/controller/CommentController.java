@@ -7,26 +7,36 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import spring.adog.dto.CommentDTO;
-import spring.adog.mapper.CommentMapper;
+import spring.adog.dto.ResultDTO;
+import spring.adog.exception.CustomizeErrorCode;
 import spring.adog.model.Comment;
+import spring.adog.model.User;
+import spring.adog.service.CommentService;
+
+import javax.servlet.http.HttpServletRequest;
 
 @Controller
 public class CommentController {
     @Autowired
-    private CommentMapper commentMapper;
+    private CommentService commentService;
 
     @ResponseBody
     @RequestMapping(value = "/comment",method = RequestMethod.POST)
-    public Object post(@RequestBody CommentDTO commentDTO){
+    public Object post(@RequestBody CommentDTO commentDTO,
+                       HttpServletRequest request){
+        User user = (User)request.getSession().getAttribute("user");
+        if (user == null){
+            return ResultDTO.errorOf(CustomizeErrorCode.NO_LOGIN);
+        }
         Comment comment = new Comment();
         comment.setContent(commentDTO.getContent());
         comment.setParentId(commentDTO.getParentId());
         comment.setType(commentDTO.getType());
         comment.setGmtCreate(System.currentTimeMillis());
         comment.setGmtModified(comment.getGmtCreate());
-        comment.setCommentor(1);
+        comment.setCommentor(user.getID());
         comment.setLikeCount(0l);
-        commentMapper.insert(comment);
-        return null;
+        commentService.insert(comment);
+        return ResultDTO.okOf();
     }
 }
