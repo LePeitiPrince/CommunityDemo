@@ -2,6 +2,7 @@ package spring.adog.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import spring.adog.enums.CommentTypeEnum;
 import spring.adog.exception.CustomizeErrorCode;
 import spring.adog.exception.CustomizeException;
@@ -21,6 +22,8 @@ public class CommentService {
     @Autowired
     private QuestionExtMapper questionExtMapper;
 
+    //spring提供的事务注解
+    @Transactional
     public void insert(Comment comment) {
         if (comment.getParentId() == null || comment.getParentId() == 0){
             throw new CustomizeException(CustomizeErrorCode.TARGET_PARAM_NOT_FOUND);
