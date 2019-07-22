@@ -3,24 +3,33 @@ package spring.adog.dto;
 import spring.adog.model.User;
 
 public class QuestionDTO {
-    private Integer ID;
+    private Long ID;
     private String TITLE;
     private String DESCRIPTION;
     private long GMTCREATE;
     private long GMTMODIFIED;
-    private Integer CREATORID;
+    private Long CREATORID;
     private Integer COMMENT_COUNT;
     private Integer VIEW_COUNT;
     private Integer LIKE_COUNT;
     private String TAG;
     private User USER;
 
-    public Integer getID() {
+
+    public Long getID() {
         return ID;
     }
 
-    public void setID(Integer ID) {
+    public void setID(Long ID) {
         this.ID = ID;
+    }
+
+    public Long getCREATORID() {
+        return CREATORID;
+    }
+
+    public void setCREATORID(Long CREATORID) {
+        this.CREATORID = CREATORID;
     }
 
     public String getTITLE() {
@@ -53,14 +62,6 @@ public class QuestionDTO {
 
     public void setGMTMODIFIED(long GMTMODIFIED) {
         this.GMTMODIFIED = GMTMODIFIED;
-    }
-
-    public Integer getCREATORID() {
-        return CREATORID;
-    }
-
-    public void setCREATORID(Integer CREATORID) {
-        this.CREATORID = CREATORID;
     }
 
     public Integer getCOMMENT_COUNT() {

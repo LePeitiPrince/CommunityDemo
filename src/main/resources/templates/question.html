@@ -5,9 +5,10 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link rel="stylesheet" href="/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="/css/bootstrap-theme.min.css"/>
-    <link rel="stylesheet" href="/css/comunity.css"/>
+    <link rel="stylesheet" href="/css/community.css"/>
     <script type="application/javascript" src="/js/jquery-3.4.1.min.js"></script>
     <script type="application/javascript" src="/js/bootstrap.min.js"></script>
+    <script type="application/javascript" src="/js/community.js"></script>
 </head>
 <body>
 <div th:insert="~{navigation :: nav}">
@@ -33,6 +34,24 @@
                 <span class="glyphicon glyphicon-pencil"></span>
                 编辑
             </a>
+            <hr>
+            <div id="comment-section">
+                <div class="media">
+                    <div class="media-left">
+                        <a href="#">
+                            <img class="media-object img-rounded" th:src="${question.USER.getAVATAR_URL()}">
+                        </a>
+                    </div>
+                    <div class="media-body">
+                        <h5 class="media-heading">
+                            <span th:text="${question.USER.getNAME()}"></span>
+                        </h5>
+                    </div>
+                </div>
+                <input type="hidden" id="question_id" th:value="${question.getID()}">
+                <textarea class="form-control comment" rows="3"></textarea>
+                <button type="button" id="comment_content" class="btn btn-success btn-comment" onclick="post()">回复</button>
+            </div>
         </div>
         <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
             <div>
