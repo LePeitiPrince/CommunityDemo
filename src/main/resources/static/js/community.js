@@ -1,6 +1,7 @@
 function post() {
     var questionId = $("#question_id").val();
     var content = $("#comment_content").text();
+    console.log(content)
     $.ajax({
         type: "POST",
         url: "/comment",

@@ -34,7 +34,31 @@
                 <span class="glyphicon glyphicon-pencil"></span>
                 编辑
             </a>
-            <hr>
+            <h4 class="comment-h4">
+                <span th:text="${question.COMMENT_COUNT}"></span> 个回复
+            </h4>
+            <hr class="comment-sp">
+            <div>
+                <div class="media comments" th:each="comment:${comments}">
+                    <div class="media-left">
+                        <a href="#">
+                            <img class="media-object img-rounded" th:src="${comment.user.getAVATAR_URL()}">
+                        </a>
+                    </div>
+                    <div class="media-body">
+                        <h5 class="media-heading">
+                            <span th:text="${comment.user.getNAME()}"></span>
+                        </h5>
+                        <div th:text="${comment.getContent()}"></div>
+                        <div class="menu">
+                            <span class="glyphicon glyphicon-thumbs-up icon"></span>
+                            <span class="glyphicon glyphicon-comment icon"></span>
+                            <span class="pull-right" th:text="${#dates.format(comment.getGmtCreate(),'yyyy-MM-dd HH:mm')}"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr class="comment-sp_">
             <div id="comment-section">
                 <div class="media">
                     <div class="media-left">
@@ -49,8 +73,8 @@
                     </div>
                 </div>
                 <input type="hidden" id="question_id" th:value="${question.getID()}">
-                <textarea class="form-control comment" rows="3"></textarea>
-                <button type="button" id="comment_content" class="btn btn-success btn-comment" onclick="post()">回复</button>
+                <textarea class="form-control comment" id="comment_content" rows="3"></textarea>
+                <button type="button" class="btn btn-success btn-comment" onclick="post()">回复</button>
             </div>
         </div>
         <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">

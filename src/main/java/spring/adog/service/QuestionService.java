@@ -115,6 +115,9 @@ public class QuestionService {
             //创建
             question.setGMTCREATE(System.currentTimeMillis());
             question.setGMTMODIFIED(question.getGMTCREATE());
+            question.setVIEW_COUNT(0);
+            question.setLIKE_COUNT(0);
+            question.setCOMMENT_COUNT(0);
             questionMapper.insert(question);
         }else {
             //更新
