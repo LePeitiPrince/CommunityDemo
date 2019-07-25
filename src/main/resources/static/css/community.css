@@ -1,64 +1,105 @@
-body{
-     background-color: #efefef;
- }
-.main{
+body {
+    background-color: #efefef;
+}
+
+.main {
     background-color: white;
     margin-top: 40px;
     margin-left: 60px;
     margin-right: 60px;
 }
-.btn-publish{
+
+.btn-publish {
     float: right;
     margin-bottom: 15px;
 }
-.media-object{
+
+.media-object {
     width: 40px;
     height: 40px;
 }
-.media-body{
+
+.media-body {
     padding-top: 10px;
 }
-.test-desc{
+
+.test-desc {
     font-size: 12px;
     font-weight: normal;
     color: #999;
 }
-.profile .section{
+
+.profile .section {
     margin-top: 15px;
 }
-.comunity-menu{
+
+.question-title {
+    margin-top: 25px;
+}
+
+.sub-comments {
+    margin-top: 10px;
+    border: 1px solid #eee;
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+}
+
+.sub-comments .btn{
+    margin-top: 10px;
+}
+.sub-comments input{
+    margin-top: 15px;
+}
+.community-menu {
     color: #999;
     font-size: 13px;
 }
-.comment{
+
+.comment {
     margin-top: 10px;
     margin-bottom: 10px;
 }
-.comments{
+
+.comments {
     border-bottom: 1px solid #eeeeee;
 }
-.btn-comment{
+
+.btn-comment {
     float: right;
     margin-bottom: 10px;
 }
-.comment-sp{
+
+.btn-subComment{
+    float: right;
+}
+.comment-sp {
     margin-top: 0;
 }
-.comment-h4{
-    margin-top: 20px;
+
+.comment-h4 {
+    margin-top: 25px;
 }
-.menu{
+
+.menu {
     margin-top: 10px;
     color: #999999;
     font-size: 15px;
 }
-.menu .icon{
+
+.menu .icon {
     margin-right: 6px;
     cursor: pointer;
 }
-.menu .icon:hover{
+
+.menu .active {
     color: #499ef3;
 }
-.comment-sp_{
+
+.menu .icon:hover {
+    color: #499ef3;
+}
+
+.comment-sp_ {
     margin-top: 5px;
 }

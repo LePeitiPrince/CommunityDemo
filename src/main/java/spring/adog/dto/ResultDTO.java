@@ -3,9 +3,18 @@ package spring.adog.dto;
 import spring.adog.exception.CustomizeErrorCode;
 import spring.adog.exception.CustomizeException;
 
-public class ResultDTO {
+public class ResultDTO<T> {
     private Integer code;
     private String message;
+    private T data;
+
+    public T getData() {
+        return data;
+    }
+
+    public void setData(T data) {
+        this.data = data;
+    }
 
     public static ResultDTO errorOf(CustomizeException ex) {
         return errorOf(ex.getCode(),ex.getMessage());
@@ -43,5 +52,13 @@ public class ResultDTO {
         resultDTO.setCode(200);
         resultDTO.setMessage("请求成功");
         return resultDTO;
+    }
+
+    public static <T> ResultDTO okOf(T t){
+        ResultDTO<Object> objectResultDTO = new ResultDTO<>();
+        objectResultDTO.setCode(200);
+        objectResultDTO.setMessage("请求成功");
+        objectResultDTO.setData(t);
+        return objectResultDTO;
     }
 }

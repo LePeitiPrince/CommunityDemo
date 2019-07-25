@@ -9,6 +9,7 @@
     <script type="application/javascript" src="/js/jquery-3.4.1.min.js"></script>
     <script type="application/javascript" src="/js/bootstrap.min.js"></script>
     <script type="application/javascript" src="/js/community.js"></script>
+    <script type="application/javascript" src="/js/moment.js"></script>
 </head>
 <body>
 <div th:insert="~{navigation :: nav}">
@@ -17,7 +18,7 @@
 <div class="container-fluid main profile">
     <div class="row">
         <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
-            <h4>
+            <h4 class="question-title">
                 <span th:text="${question.TITLE}"></span>
             </h4>
             <span class="test-desc">
@@ -30,7 +31,7 @@
 
             </div>
             <hr>
-            <a th:if="${session.user != null && question.CREATORID == session.user.getID()}" class="comunity-menu" th:href="@{'/publish/' + ${question.getID()}}">
+            <a th:if="${session.user != null && question.CREATORID == session.user.getID()}" class="community-menu" th:href="@{'/publish/' + ${question.getID()}}">
                 <span class="glyphicon glyphicon-pencil"></span>
                 编辑
             </a>
@@ -52,12 +53,42 @@
                         <div th:text="${comment.getContent()}"></div>
                         <div class="menu">
                             <span class="glyphicon glyphicon-thumbs-up icon"></span>
-                            <span class="glyphicon glyphicon-comment icon"></span>
+                            <span class="icon" th:data="${comment.id}" onclick="collapseComments(this)">
+                                <span class="glyphicon glyphicon-comment">
+                                </span>
+                                <span th:text="${comment.getCommentCount()}"></span>
+                            </span>
                             <span class="pull-right" th:text="${#dates.format(comment.getGmtCreate(),'yyyy-MM-dd HH:mm')}"></span>
+                        </div>
+                        <!--二级评论-->
+                        <div class="collapse sub-comments col-lg-12 col-md-12 col-sm-12 col-xs-12" th:id="${'comment-'+comment.id}">
+
+<!--                            <div class="media comments" th:each="comment:${comments}">-->
+<!--                                <div class="media-left">-->
+<!--                                    <a href="#">-->
+<!--                                        <img class="media-object img-rounded" th:src="${comment.user.getAVATAR_URL()}">-->
+<!--                                    </a>-->
+<!--                                </div>-->
+<!--                                <div class="media-body">-->
+<!--                                    <h5 class="media-heading">-->
+<!--                                        <span th:text="${comment.user.getNAME()}"></span>-->
+<!--                                    </h5>-->
+<!--                                    <div th:text="${comment.getContent()}"></div>-->
+<!--                                    <div class="menu">-->
+<!--                                        <span class="pull-right" th:text="${#dates.format(comment.getGmtCreate(),'yyyy-MM-dd HH:mm')}"></span>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+
+                            <input type="text" class="form-control" placeholder="评论一下..." th:id="${'replay-'+comment.id}">
+                            <button type="button" class="btn btn-success pull-right" onclick="replay(this)" th:data="${comment.id}">评论</button>
                         </div>
                     </div>
                 </div>
             </div>
+            <h4 class="comment-h4">
+                提交回复
+            </h4>
             <hr class="comment-sp_">
             <div id="comment-section">
                 <div class="media">
@@ -74,7 +105,7 @@
                 </div>
                 <input type="hidden" id="question_id" th:value="${question.getID()}">
                 <textarea class="form-control comment" id="comment_content" rows="3"></textarea>
-                <button type="button" class="btn btn-success btn-comment" onclick="post()">回复</button>
+                <button type="button" class="btn btn-success btn-comment" onclick="comment()">回复</button>
             </div>
         </div>
         <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">

@@ -8,10 +8,7 @@ import spring.adog.dto.CommentDTO;
 import spring.adog.enums.CommentTypeEnum;
 import spring.adog.exception.CustomizeErrorCode;
 import spring.adog.exception.CustomizeException;
-import spring.adog.mapper.CommentMapper;
-import spring.adog.mapper.QuestionExtMapper;
-import spring.adog.mapper.QuestionMapper;
-import spring.adog.mapper.UserMapper;
+import spring.adog.mapper.*;
 import spring.adog.model.*;
 
 import java.util.ArrayList;
@@ -31,7 +28,8 @@ public class CommentService {
     private QuestionExtMapper questionExtMapper;
     @Autowired
     private UserMapper userMapper;
-
+    @Autowired
+    private CommentExtMapper commentExtMapper;
     //spring提供的事务注解
     @Transactional
     public void insert(Comment comment) {
@@ -48,6 +46,14 @@ public class CommentService {
                 throw new CustomizeException(CustomizeErrorCode.COMMENT_NOT_FOUND);
             }
             commentMapper.insert(comment);
+//            //使相应id的评论的回复数+1
+//            Comment parentComment = new Comment();
+//            parentComment.setId(comment.getParentId());
+//            parentComment.setCommentCount(1);
+//            commentExtMapper.incCommentCount(parentComment);
+
+            dbComment.setCommentCount(1);
+            commentExtMapper.incCommentCount(dbComment);
         }else {
             //回复问题
             Question question = questionMapper.selectByPrimaryKey(comment.getParentId());
@@ -60,11 +66,12 @@ public class CommentService {
         }
     }
 
-    public List<CommentDTO> listByQuestionId(Long id) {
+    public List<CommentDTO> listByTargetId(Long id, CommentTypeEnum question) {
         CommentExample example = new CommentExample();
         example.createCriteria()
                 .andParentIdEqualTo(id)
-                .andTypeEqualTo(CommentTypeEnum.QUESTION.getType());
+                .andTypeEqualTo(question.getType());
+        example.setOrderByClause("GMT_CREATE DESC");
         List<Comment> comments = commentMapper.selectByExample(example);
         if (comments.size() == 0){
             return new ArrayList<>();
