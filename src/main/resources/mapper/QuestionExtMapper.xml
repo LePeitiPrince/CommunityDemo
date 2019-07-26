@@ -27,4 +27,7 @@
     set COMMENT_COUNT = COMMENT_COUNT + #{COMMENT_COUNT,jdbcType=INTEGER}
     where ID = #{ID}
   </update>
+  <select id="selectByRelated" parameterType="spring.adog.model.Question" resultMap="BaseResultMap">
+    select * from QUESTION where ID != #{ID} AND TAG REGEXP #{TAG}
+  </select>
 </mapper>

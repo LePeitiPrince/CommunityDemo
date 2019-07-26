@@ -27,11 +27,19 @@
                 阅读数 <span th:text="${question.VIEW_COUNT}"></span>
             </span>
             <hr/>
+            <!--内容-->
             <div th:text="${question.DESCRIPTION}">
-
             </div>
-            <hr>
-            <a th:if="${session.user != null && question.CREATORID == session.user.getID()}" class="community-menu" th:href="@{'/publish/' + ${question.getID()}}">
+            <hr style="margin-bottom: 5px">
+            <!--标签-->
+            <span class="label label-info question-tag" th:each="tag:${question.TAG.split('，')}">
+                <span class="glyphicon glyphicon-tags"></span>
+                <span th:text="${tag}"></span>
+            </span>
+            <hr style="margin-top: 5px;">
+            <!--编辑-->
+            <a th:if="${session.user != null && question.CREATORID == session.user.getID()}" class="community-menu"
+               th:href="@{'/publish/' + ${question.getID()}}">
                 <span class="glyphicon glyphicon-pencil"></span>
                 编辑
             </a>
@@ -58,30 +66,35 @@
                                 </span>
                                 <span th:text="${comment.getCommentCount()}"></span>
                             </span>
-                            <span class="pull-right" th:text="${#dates.format(comment.getGmtCreate(),'yyyy-MM-dd HH:mm')}"></span>
+                            <span class="pull-right"
+                                  th:text="${#dates.format(comment.getGmtCreate(),'yyyy-MM-dd HH:mm')}"></span>
                         </div>
                         <!--二级评论-->
-                        <div class="collapse sub-comments col-lg-12 col-md-12 col-sm-12 col-xs-12" th:id="${'comment-'+comment.id}">
+                        <div class="collapse sub-comments col-lg-12 col-md-12 col-sm-12 col-xs-12"
+                             th:id="${'comment-'+comment.id}">
 
-<!--                            <div class="media comments" th:each="comment:${comments}">-->
-<!--                                <div class="media-left">-->
-<!--                                    <a href="#">-->
-<!--                                        <img class="media-object img-rounded" th:src="${comment.user.getAVATAR_URL()}">-->
-<!--                                    </a>-->
-<!--                                </div>-->
-<!--                                <div class="media-body">-->
-<!--                                    <h5 class="media-heading">-->
-<!--                                        <span th:text="${comment.user.getNAME()}"></span>-->
-<!--                                    </h5>-->
-<!--                                    <div th:text="${comment.getContent()}"></div>-->
-<!--                                    <div class="menu">-->
-<!--                                        <span class="pull-right" th:text="${#dates.format(comment.getGmtCreate(),'yyyy-MM-dd HH:mm')}"></span>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
+                            <!--                            <div class="media comments" th:each="comment:${comments}">-->
+                            <!--                                <div class="media-left">-->
+                            <!--                                    <a href="#">-->
+                            <!--                                        <img class="media-object img-rounded" th:src="${comment.user.getAVATAR_URL()}">-->
+                            <!--                                    </a>-->
+                            <!--                                </div>-->
+                            <!--                                <div class="media-body">-->
+                            <!--                                    <h5 class="media-heading">-->
+                            <!--                                        <span th:text="${comment.user.getNAME()}"></span>-->
+                            <!--                                    </h5>-->
+                            <!--                                    <div th:text="${comment.getContent()}"></div>-->
+                            <!--                                    <div class="menu">-->
+                            <!--                                        <span class="pull-right" th:text="${#dates.format(comment.getGmtCreate(),'yyyy-MM-dd HH:mm')}"></span>-->
+                            <!--                                    </div>-->
+                            <!--                                </div>-->
+                            <!--                            </div>-->
 
-                            <input type="text" class="form-control" placeholder="评论一下..." th:id="${'replay-'+comment.id}">
-                            <button type="button" class="btn btn-success pull-right" onclick="replay(this)" th:data="${comment.id}">评论</button>
+                            <input type="text" class="form-control" placeholder="评论一下..."
+                                   th:id="${'replay-'+comment.id}">
+                            <button type="button" class="btn btn-success pull-right" onclick="replay(this)"
+                                    th:data="${comment.id}">评论
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -127,6 +140,16 @@
             <hr>
             <div>
                 <h4>相关问题</h4>
+<!--                <ul style="padding-left: 0px">-->
+<!--                    <ol th:each="related:${relatedQuestions}" style="padding-left: 0px;line-height: 2px">-->
+<!--                        <a th:href="@{'/question/'+ ${related.getID()}}" th:text="${related.TITLE}"></a>-->
+<!--                    </ol>-->
+<!--                </ul>-->
+                <ul class="question-related">
+                    <ol th:each="related:${relatedQuestions}" class="question-related">
+                        <a th:href="@{'/question/'+ ${related.getID()}}" th:text="${related.TITLE}"></a>
+                    </ol>
+                </ul>
             </div>
         </div>
     </div>

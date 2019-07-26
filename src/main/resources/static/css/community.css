@@ -37,6 +37,14 @@ body {
     margin-top: 25px;
 }
 
+.question-tag{
+    margin-right: 5px;
+}
+
+.question-related{
+    padding-left: 0px;
+    line-height: 20px;
+}
 .sub-comments {
     margin-top: 10px;
     border: 1px solid #eee;

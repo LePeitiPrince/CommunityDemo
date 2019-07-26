@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import spring.adog.dto.CommentDTO;
 import spring.adog.dto.QuestionDTO;
 import spring.adog.enums.CommentTypeEnum;
+import spring.adog.model.Question;
 import spring.adog.service.CommentService;
 import spring.adog.service.QuestionService;
 
@@ -24,12 +25,14 @@ public class QuestionController {
     public String question(@PathVariable("id") Long id,
                            Model model){
         QuestionDTO question = questionService.getQuestionById(id);
+        List<QuestionDTO> relatedQuestions = questionService.getRelatedQuestion(question);
         List<CommentDTO> comments = commentService.listByTargetId(id, CommentTypeEnum.QUESTION);
         //累加阅读数
         questionService.incView(id);
 
         model.addAttribute("question",question);
         model.addAttribute("comments",comments);
+        model.addAttribute("relatedQuestions",relatedQuestions);
         return "question";
     }
 }

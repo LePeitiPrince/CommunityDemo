@@ -1,5 +1,6 @@
 package spring.adog.service;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ import spring.adog.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class QuestionService {
@@ -66,6 +68,7 @@ public class QuestionService {
 
         Integer offset = getOffset(page,size,pagination);
         QuestionExample paginationExample = new QuestionExample();
+        paginationExample.setOrderByClause("GMTCREATE DESC");
         List<Question> questions = questionMapper.selectByExampleWithRowbounds(paginationExample,new RowBounds(offset,size ));
         List<QuestionDTO> questionDTOList = getQuestionDTOList(questions);
         pagination.setQuestions(questionDTOList);
@@ -142,5 +145,23 @@ public class QuestionService {
         record.setID(id);
         record.setVIEW_COUNT(1);
         questionExtMapper.incView(record);
+    }
+
+    public List<QuestionDTO> getRelatedQuestion(QuestionDTO questionDTO) {
+        if (StringUtils.isBlank(questionDTO.getTAG())){
+            return new ArrayList<>();
+        }
+        String regexpTag = StringUtils.replace(questionDTO.getTAG(), "，", "|");
+        System.out.println(regexpTag);
+        Question question = new Question();
+        question.setID(questionDTO.getID());
+        question.setTAG(regexpTag);
+        List<Question> questions = questionExtMapper.selectByRelated(question);
+        List<QuestionDTO> collect = questions.stream().map(que -> {
+            QuestionDTO questionDTO_ = new QuestionDTO();
+            BeanUtils.copyProperties(que, questionDTO_);
+            return questionDTO_;
+        }).collect(Collectors.toList());
+        return collect;
     }
 }
