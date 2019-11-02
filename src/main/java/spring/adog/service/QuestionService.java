@@ -71,7 +71,7 @@ public class QuestionService {
         paginationExample.setOrderByClause("GMTCREATE DESC");
         List<Question> questions = questionMapper.selectByExampleWithRowbounds(paginationExample,new RowBounds(offset,size ));
         List<QuestionDTO> questionDTOList = getQuestionDTOList(questions);
-        pagination.setQuestions(questionDTOList);
+        pagination.setData(questionDTOList);
         return pagination;
     }
 
@@ -97,7 +97,7 @@ public class QuestionService {
                 .andCREATORIDEqualTo(userId);
         List<Question> questions = questionMapper.selectByExampleWithRowbounds(paginationByIdExample,new RowBounds(offset,size));
         List<QuestionDTO> questionDTOList = getQuestionDTOList(questions);
-        pagination.setQuestions(questionDTOList);
+        pagination.setData(questionDTOList);
         return pagination;
     }
 

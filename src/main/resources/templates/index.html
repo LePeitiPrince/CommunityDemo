@@ -29,7 +29,7 @@
                 <span class="glyphicon glyphicon-list" aria-hidden="true"></span>发现
             </h2>
             <hr/>
-            <div th:if="${pagination.getQuestions() != null && question.USER != null}" class="media" th:each="question : ${pagination.getQuestions()}">
+            <div th:if="${pagination.getData() != null && question.USER != null}" class="media" th:each="question : ${pagination.getData()}">
                 <div class="media-left">
                     <a href="#">
                         <img class="media-object img-rounded" th:src="${question.USER.getAVATAR_URL()}">

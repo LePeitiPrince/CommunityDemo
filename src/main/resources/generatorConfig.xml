@@ -41,6 +41,8 @@
             <!--            如果为真，那么MBG将使用从数据库元数据返回的列名作为生成的域对象的属性。如果为false(默认值)，MBG将尝试对返回的名称进行驼峰排序。-->
             <property name="useActualColumnNames" value="false"/>
         </table>
+        <table tableName="notification" domainObjectName="Notification" >
+        </table>
 
     </context>
 </generatorConfiguration>

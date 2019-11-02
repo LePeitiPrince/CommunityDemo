@@ -3,6 +3,7 @@ package spring.adog.provider;
 import com.alibaba.fastjson.JSON;
 import okhttp3.*;
 import org.springframework.stereotype.Component;
+import org.springframework.web.filter.CharacterEncodingFilter;
 import spring.adog.dto.AccessTokenDTO;
 import spring.adog.dto.GithubUser;
 
